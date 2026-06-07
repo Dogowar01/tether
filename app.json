@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Tether",
+    "slug": "tether",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Tether.png",
+    "scheme": "tether",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/Tether.png",
+      "bundleIdentifier": "com.signal9.tether",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.signal9.tether",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Tether.png",
+        "backgroundColor": "#1C1917"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1C1917",
+          "image": "./assets/Tether.png",
+          "imageWidth": 120
+        }
+      ],
+      "expo-font",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

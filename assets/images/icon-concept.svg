@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+
+  <!-- Background — warm dark, squircle-ish -->
+  <rect width="1024" height="1024" rx="220" fill="#1C1917"/>
+
+  <!-- Subtle warm inner glow -->
+  <radialGradient id="glow" cx="50%" cy="45%" r="48%">
+    <stop offset="0%"   stop-color="#C68B3A" stop-opacity="0.10"/>
+    <stop offset="100%" stop-color="#C68B3A" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1024" height="1024" rx="220" fill="url(#glow)"/>
+
+  <!-- ── Anchor ── -->
+  <!-- All strokes: amber #C68B3A, round caps/joins, 46px weight -->
+
+  <!-- Ring -->
+  <circle
+    cx="512" cy="292" r="84"
+    fill="none"
+    stroke="#C68B3A"
+    stroke-width="46"
+    stroke-linecap="round"
+  />
+
+  <!-- Shaft -->
+  <line
+    x1="512" y1="376" x2="512" y2="762"
+    stroke="#C68B3A" stroke-width="46" stroke-linecap="round"
+  />
+
+  <!-- Crossbar (stock) — sits about 40 % down the shaft -->
+  <line
+    x1="308" y1="516" x2="716" y2="516"
+    stroke="#C68B3A" stroke-width="46" stroke-linecap="round"
+  />
+
+  <!-- Bottom arm -->
+  <line
+    x1="342" y1="762" x2="682" y2="762"
+    stroke="#C68B3A" stroke-width="46" stroke-linecap="round"
+  />
+
+  <!-- Left fluke — quarter-circle curving upward -->
+  <path
+    d="M 342 762 Q 272 762 272 692"
+    fill="none"
+    stroke="#C68B3A" stroke-width="46" stroke-linecap="round"
+  />
+
+  <!-- Right fluke -->
+  <path
+    d="M 682 762 Q 752 762 752 692"
+    fill="none"
+    stroke="#C68B3A" stroke-width="46" stroke-linecap="round"
+  />
+
+</svg>
