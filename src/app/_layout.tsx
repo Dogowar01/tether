@@ -8,6 +8,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -29,16 +30,19 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    // contentStyle sets the Stack card's own background to match the app
-    // theme — prevents the system white/grey from showing through any gap
-    // at the bottom (home indicator area, safe-area edge, etc.)
-    <Stack screenOptions={{
-      headerShown: false,
-      animation: 'fade',
-      contentStyle: { backgroundColor: bg },
-    }}>
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="onboarding" />
-    </Stack>
+    // SafeAreaProvider must live at the true root of the view hierarchy
+    // so it can measure real device insets (home indicator, notch, etc.)
+    // and supply them correctly to every useSafeAreaInsets() call in the app.
+    // Placing it inside a nested layout means it can't see the real edges.
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: bg }}>
+      <Stack screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+        contentStyle: { backgroundColor: bg },
+      }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="onboarding" />
+      </Stack>
+    </SafeAreaProvider>
   );
 }
