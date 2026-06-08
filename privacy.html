@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Tether</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1E1B28;
+      --surface:  #2A2638;
+      --border:   #403C54;
+      --text:     #F0EEF8;
+      --soft:     #C8C0E0;
+      --muted:    #8A84A8;
+      --dim:      #6A6480;
+      --accent:   #9B7EC8;
+      --amber:    #C87848;
+    }
+
+    html { background: var(--bg); }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      padding: 48px 24px 96px;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 56px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wordmark {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(155, 126, 200, 0.15);
+      border: 1px solid rgba(155, 126, 200, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* ── Page title ── */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 48px;
+    }
+
+    /* ── TL;DR box ── */
+    .tldr {
+      background: rgba(155, 126, 200, 0.10);
+      border: 1px solid rgba(155, 126, 200, 0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 48px;
+    }
+
+    .tldr-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .tldr p {
+      font-size: 15px;
+      color: var(--soft);
+      line-height: 1.65;
+    }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p {
+      color: var(--soft);
+      margin-bottom: 14px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 14px;
+    }
+
+    ul li {
+      color: var(--soft);
+      padding: 5px 0 5px 20px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--dim);
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    /* ── Crisis box ── */
+    .crisis {
+      background: rgba(176, 48, 96, 0.10);
+      border: 1px solid rgba(176, 48, 96, 0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+
+    .crisis-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #E890B0;
+      margin-bottom: 10px;
+    }
+
+    .crisis ul li { color: #E890B0; }
+    .crisis ul li::before { color: rgba(232, 144, 176, 0.5); }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="site-header">
+      <span class="wordmark">Tether</span>
+      <span class="pill">Privacy Policy</span>
+    </header>
+
+    <h1>Your words stay yours.</h1>
+    <p class="meta">Last updated: 8 June 2026 &nbsp;·&nbsp; Effective: 8 June 2026</p>
+
+    <div class="tldr">
+      <div class="tldr-label">The short version</div>
+      <p>
+        Everything you write in Tether is stored <strong>only on your device</strong>.
+        Nothing you type, no personal details, and no usage data is ever sent to us
+        or any third party. We cannot read what you write — because we never receive it.
+      </p>
+    </div>
+
+    <section>
+      <h2>Who we are</h2>
+      <p>
+        Tether is made by <strong>Signal9 Studio</strong>, based in Australia.
+        Questions about this policy? Email us at
+        <a href="mailto:dogowar2010@gmail.com">dogowar2010@gmail.com</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>What Tether stores and where</h2>
+      <p>
+        All data created in Tether — including your name (if provided), Witness letters
+        you choose to hold, Container entries, Anchors, and State Map history — is saved
+        using your device's local storage only. This data:
+      </p>
+      <ul>
+        <li>Never leaves your device under normal operation</li>
+        <li>Is not backed up to any server operated by Signal9 Studio</li>
+        <li>Is not accessible to us or any third party</li>
+        <li>Will be deleted if you uninstall the app</li>
+      </ul>
+      <p>
+        If you use <strong>iCloud Backup</strong> (a device-level setting you control),
+        Apple may include this local data in your device backup under Apple's own privacy
+        terms, which you can review at
+        <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener">apple.com/privacy</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Data we do not collect</h2>
+      <p>Tether does not collect, transmit, or store:</p>
+      <ul>
+        <li>Your name, email address, or any contact details</li>
+        <li>Your writing or journal entries</li>
+        <li>Location data</li>
+        <li>Device identifiers or advertising IDs</li>
+        <li>Usage analytics or crash reports</li>
+        <li>Any data for advertising or profiling purposes</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Third-party services</h2>
+      <p>
+        Tether does not currently use any third-party analytics, advertising, or
+        data-collection services. The app does not make network requests to any
+        external server during normal use.
+      </p>
+    </section>
+
+    <section>
+      <h2>Children's privacy</h2>
+      <p>
+        Tether is rated 12+ and is not directed at children under 13. We do not
+        knowingly collect information from children under 13. Because all data stays
+        on the device and no information is transmitted, there is no server-side data
+        to delete.
+      </p>
+    </section>
+
+    <section>
+      <h2>Mental health content</h2>
+      <p>
+        Tether is a supportive writing and self-reflection tool. It is
+        <strong>not</strong> a substitute for professional mental health care,
+        therapy, or crisis intervention.
+      </p>
+      <div class="crisis">
+        <div class="crisis-label">If you need immediate support</div>
+        <ul>
+          <li>Lifeline Australia — 13 11 14 (24/7)</li>
+          <li>Beyond Blue — 1300 22 4636</li>
+          <li>Crisis Text Line — text HOME to 741741</li>
+          <li>988 Suicide &amp; Crisis Lifeline (US) — call or text 988</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Your rights</h2>
+      <p>
+        Signal9 Studio operates in accordance with the
+        <strong>Australian Privacy Act 1988</strong> and the
+        <strong>Australian Privacy Principles (APPs)</strong>.
+        Because Tether does not transmit or store any personal information on
+        external servers, there is no personal information held by us to access,
+        correct, or delete.
+      </p>
+      <p>
+        If you believe otherwise or have a concern, contact us at
+        <a href="mailto:dogowar2010@gmail.com">dogowar2010@gmail.com</a>
+        and we will respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h2>Changes to this policy</h2>
+      <p>
+        If we update this policy — for example, if a future version of Tether adds
+        server-side features — we will update the "Last updated" date above and,
+        where required, notify you within the app. Continued use of Tether after a
+        policy update constitutes acceptance of the new terms.
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        Signal9 Studio &nbsp;·&nbsp;
+        <a href="mailto:dogowar2010@gmail.com">dogowar2010@gmail.com</a>
+        &nbsp;·&nbsp; Australia
+      </p>
+    </footer>
+
+  </div>
+</body>
+</html>
