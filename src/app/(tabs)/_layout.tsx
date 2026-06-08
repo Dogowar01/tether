@@ -4,7 +4,7 @@ import { TetherTabBar } from '@/components/TetherTabBar';
 
 export default function TabsLayout() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ flex: 1 }}>
       <Tabs
         tabBar={props => <TetherTabBar {...props} />}
         screenOptions={{ headerShown: false }}

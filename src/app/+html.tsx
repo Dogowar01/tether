@@ -36,11 +36,32 @@ export default function Root({ children }: PropsWithChildren) {
         {/* ── Expo scroll reset (keeps full-screen layout correct on web) ── */}
         <ScrollViewStyleReset />
 
-        {/* ── Background colour ──────────────────────────────────────────────
-            Sets html + body to the app's dark background so no white ever
-            bleeds through at the edges, especially on notched devices with
-            viewport-fit=cover. ─────────────────────────────────────────── */}
-        <style dangerouslySetInnerHTML={{ __html: 'html,body{background-color:#1C1917;margin:0;padding:0;}' }} />
+        {/* ── Full-height + background fix ───────────────────────────────────
+            100dvh  = "dynamic viewport height" — shrinks/grows as the Safari
+                      toolbar shows/hides, so the app always fills the VISIBLE
+                      area. Older browsers fall back to the 100% set by
+                      ScrollViewStyleReset above.
+            #root height:100% is needed so React Native's flex:1 root view
+            has a concrete parent height to fill.
+            background-color on all ancestors stops any dark-or-white flash
+            at the edges with viewport-fit:cover. ─────────────────────────── */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          html, body, #root {
+            background-color: #1C1917;
+            margin: 0;
+            padding: 0;
+          }
+          html {
+            height: 100dvh;
+          }
+          body {
+            min-height: 100dvh;
+            height: 100%;
+          }
+          #root {
+            height: 100%;
+          }
+        ` }} />
       </head>
       <body style={{ backgroundColor: '#1C1917' }}>{children}</body>
     </html>
