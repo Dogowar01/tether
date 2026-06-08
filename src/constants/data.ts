@@ -110,7 +110,7 @@ export const VESSELS: Vessel[] = [
   { id: 'cave',   label: 'Cave',     glyph: '◑' },
   { id: 'ocean',  label: 'Ocean',    glyph: '≋' },
   { id: 'vault',  label: 'Vault',    glyph: '▣' },
-  { id: 'flame',  label: 'Flame',    glyph: '△' },
+  { id: 'river',  label: 'River',    glyph: '≈' },
 ];
 
 // ── Anchor senses ─────────────────────────────────────────────────────────
@@ -140,14 +140,9 @@ export type Tool = {
 };
 
 export const TOOLS: Tool[] = [
-  { id: 'witness',   glyph: '◉', iconName: 'ear-outline',      label: 'The Witness', desc: 'Be heard without judgment',  accent: 'amber', paid: true  },
+  { id: 'witness',   glyph: '◉', iconName: 'create-outline',    label: 'The Witness', desc: 'Write what can\'t be said', accent: 'amber', paid: true  },
   { id: 'state-map', glyph: '≋', iconName: 'pulse-outline',    label: 'State Map',   desc: 'Know your nervous system',   accent: 'sage',  paid: false },
   { id: 'container', glyph: '▣', iconName: 'archive-outline',  label: 'Container',   desc: 'Set something down safely',  accent: 'slate', paid: false },
   { id: 'anchors',   glyph: '⚓', iconName: 'compass-outline',  label: 'Anchors',     desc: 'Return to what grounds you', accent: 'terra', paid: false },
 ];
 
-// ── Witness system prompt ─────────────────────────────────────────────────
-
-export const WITNESS_SYSTEM_PROMPT = `You are a compassionate witness for someone who may be experiencing trauma or emotional difficulty. Your only role is to receive what they share and reflect it back with genuine warmth and without judgment. Do NOT offer advice, suggest techniques, recommend therapy, or reframe their experience. ONLY acknowledge what they said, honour the weight of it, and make them feel genuinely heard. Write 3–5 sentences, warm and quiet. Begin with their actual experience. Never start with "I".
-
-CRITICAL SAFETY: If the user expresses suicidal ideation, intent to harm themselves or others, or is in acute crisis, respond with warmth and immediately surface crisis resources. Say something like: "What you're carrying sounds unbearable right now. Please reach out to someone who can be with you — Lifeline Australia is available 24 hours: 13 11 14. You don't have to be alone with this." Do not continue a normal session.`;

@@ -37,7 +37,7 @@ const SLIDES: Slide[] = [
     type: 'tool',
     glyph: '◉',
     name: 'The Witness',
-    desc: "Share what's weighing on you. An AI listener that doesn't judge, fix, or advise.",
+    desc: "Write what you can't say out loud. Choose a theme, follow the prompt, then hold it or let it go.",
     accentBase: Accent.amber.base,
     accentText: Accent.amber.text.dark,
     gradientColor: 'rgba(200,120,72,0.22)',
