@@ -52,11 +52,17 @@ export default function Root({ children }: PropsWithChildren) {
             padding: 0;
           }
           html {
+            height: 100%;
+            /* dvh = dynamic viewport height — shrinks as Safari toolbar
+               appears, so the app never ends above the screen bottom.
+               Fallback chain for older iOS: 100% → -webkit-fill-available */
+            height: -webkit-fill-available;
             height: 100dvh;
           }
           body {
-            min-height: 100dvh;
             height: 100%;
+            min-height: -webkit-fill-available;
+            min-height: 100dvh;
           }
           #root {
             height: 100%;
