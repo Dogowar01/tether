@@ -42,6 +42,13 @@
       "typedRoutes": true,
       "reactCompiler": true,
       "baseUrl": "/tether"
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "2bf7ed00-3d70-4694-b5f7-2563a8030ad0"
+      }
+    },
+    "owner": "dogowar01"
   }
 }
