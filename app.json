@@ -10,8 +10,10 @@
     "ios": {
       "icon": "./assets/Tether.png",
       "bundleIdentifier": "com.signal9.tether",
-      "buildNumber": "1",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.signal9.tether",
