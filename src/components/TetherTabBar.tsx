@@ -22,7 +22,7 @@ type TabBarProps = {
 
 const TABS = [
   { name: 'index',     iconName: 'home-outline',    label: 'Home'    },
-  { name: 'witness',   iconName: 'ear-outline',     label: 'Witness' },
+  { name: 'witness',   iconName: 'create-outline',  label: 'Witness' },
   { name: 'state-map', iconName: 'pulse-outline',   label: 'State'   },
   { name: 'container', iconName: 'archive-outline', label: 'Contain' },
   { name: 'anchors',   iconName: 'compass-outline', label: 'Anchors' },

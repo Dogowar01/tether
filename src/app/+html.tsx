@@ -35,8 +35,14 @@ export default function Root({ children }: PropsWithChildren) {
 
         {/* ── Expo scroll reset (keeps full-screen layout correct on web) ── */}
         <ScrollViewStyleReset />
+
+        {/* ── Background colour ──────────────────────────────────────────────
+            Sets html + body to the app's dark background so no white ever
+            bleeds through at the edges, especially on notched devices with
+            viewport-fit=cover. ─────────────────────────────────────────── */}
+        <style dangerouslySetInnerHTML={{ __html: 'html,body{background-color:#1C1917;margin:0;padding:0;}' }} />
       </head>
-      <body>{children}</body>
+      <body style={{ backgroundColor: '#1C1917' }}>{children}</body>
     </html>
   );
 }

@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -123,13 +123,32 @@ export default function HomeScreen() {
   // Checked here (inside the nav tree) so <Redirect> fires reliably.
   const [onboardingChecked, setOnboardingChecked] = useState(false);
   const [onboarded,         setOnboarded]         = useState(true); // optimistic
+  const [name,              setName]              = useState('');
+  const [editingName,       setEditingName]       = useState(false);
+  const [nameInput,         setNameInput]         = useState('');
 
   useEffect(() => {
-    AsyncStorage.getItem('tether:onboarded').then(v => {
-      setOnboarded(!!v);
+    AsyncStorage.multiGet(['tether:onboarded', 'tether:name']).then(pairs => {
+      const onboardedVal = pairs.find(([k]) => k === 'tether:onboarded')?.[1];
+      const nameVal      = pairs.find(([k]) => k === 'tether:name')?.[1];
+      setOnboarded(!!onboardedVal);
+      setName(nameVal ?? '');
       setOnboardingChecked(true);
     });
   }, []);
+
+  async function saveName() {
+    const trimmed = nameInput.trim();
+    if (trimmed) {
+      await AsyncStorage.setItem('tether:name', trimmed);
+      setName(trimmed);
+    } else {
+      await AsyncStorage.removeItem('tether:name');
+      setName('');
+    }
+    setEditingName(false);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+  }
 
   const headerOpacity = useSharedValue(0);
   const headerY      = useSharedValue(-20);
@@ -152,7 +171,8 @@ export default function HomeScreen() {
   if (!onboarded) return <Redirect href="/onboarding" />;
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const timeGreeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const greeting = name ? `${timeGreeting}, ${name}` : timeGreeting;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.bg }]}>
@@ -163,7 +183,17 @@ export default function HomeScreen() {
       >
         {/* ── Header ── */}
         <Animated.View style={[styles.header, headerStyle]}>
-          <Text style={[styles.greeting, { color: colors.dim }]}>{greeting}</Text>
+          {/* Greeting row with name-edit button */}
+          <View style={styles.greetingRow}>
+            <Text style={[styles.greeting, { color: colors.dim }]}>{greeting}</Text>
+            <Pressable
+              onPress={() => { setNameInput(name); setEditingName(true); }}
+              hitSlop={12}
+              style={({ pressed }) => ({ opacity: pressed ? 0.4 : 0.7 })}
+            >
+              <Ionicons name="person-circle-outline" size={20} color={colors.dim} />
+            </Pressable>
+          </View>
 
           <Text style={[styles.wordmark, { color: colors.text, fontFamily: Font.serif }]}>
             Tether
@@ -222,6 +252,56 @@ export default function HomeScreen() {
           </Pressable>
         )}
       </ScrollView>
+
+      {/* ── Name edit modal ── */}
+      <Modal
+        visible={editingName}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setEditingName(false)}
+      >
+        <KeyboardAvoidingView
+          style={styles.modalOverlay}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setEditingName(false)} />
+          <View style={[styles.modalCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+            <Text style={[styles.modalTitle, { color: colors.text, fontFamily: Font.serif }]}>
+              What should I call you?
+            </Text>
+            <Text style={[styles.modalHint, { color: colors.dim }]}>
+              Optional · stays only on this device
+            </Text>
+            <TextInput
+              style={[styles.modalInput, { color: colors.text, borderBottomColor: colors.border }]}
+              placeholder="First name or nickname"
+              placeholderTextColor={colors.dim}
+              value={nameInput}
+              onChangeText={setNameInput}
+              maxLength={32}
+              autoCapitalize="words"
+              autoCorrect={false}
+              autoFocus
+              returnKeyType="done"
+              onSubmitEditing={saveName}
+            />
+            <View style={styles.modalBtns}>
+              <Pressable
+                onPress={() => setEditingName(false)}
+                style={({ pressed }) => [styles.modalBtn, styles.modalBtnGhost, { borderColor: colors.border, opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.modalBtnLabel, { color: colors.muted }]}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                onPress={saveName}
+                style={({ pressed }) => [styles.modalBtn, { backgroundColor: Accent.amber.base, opacity: pressed ? 0.8 : 1 }]}
+              >
+                <Text style={[styles.modalBtnLabel, { color: '#fff' }]}>Save</Text>
+              </Pressable>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </View>
   );
 }
@@ -235,10 +315,15 @@ const styles = StyleSheet.create({
 
   // Header
   header: { marginBottom: Space.xl + 4 },
+  greetingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
   greeting: {
     fontSize: 13,
     letterSpacing: 0.2,
-    marginBottom: 6,
   },
   wordmark: {
     fontSize: 58,
@@ -345,5 +430,54 @@ const styles = StyleSheet.create({
   devResetText: {
     fontSize: 12,
     letterSpacing: 0.3,
+  },
+
+  // Name modal
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    paddingHorizontal: Space.xl,
+  },
+  modalCard: {
+    width: '100%',
+    borderRadius: Radius.xl,
+    borderWidth: 1,
+    padding: Space.xl,
+  },
+  modalTitle: {
+    fontSize: 22,
+    lineHeight: 30,
+    marginBottom: Space.xs,
+  },
+  modalHint: {
+    fontSize: 12,
+    marginBottom: Space.xl,
+  },
+  modalInput: {
+    fontSize: 20,
+    paddingVertical: Space.sm,
+    borderBottomWidth: 1,
+    marginBottom: Space.xl,
+  },
+  modalBtns: {
+    flexDirection: 'row',
+    gap: Space.sm,
+  },
+  modalBtn: {
+    flex: 1,
+    paddingVertical: Space.md - 2,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalBtnGhost: {
+    borderWidth: 1,
+    backgroundColor: 'transparent',
+  },
+  modalBtnLabel: {
+    fontSize: 15,
+    fontWeight: '600',
   },
 });
