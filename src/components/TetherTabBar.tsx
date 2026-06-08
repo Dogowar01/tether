@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as Haptics from 'expo-haptics';
 import { useEffect } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -80,10 +80,18 @@ export function TetherTabBar({ state, navigation }: TabBarProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
+  // Safety net: on iOS the home indicator area is ~34px. If initialWindowMetrics
+  // somehow hasn't resolved yet and insets.bottom = 0, we use 34px so the
+  // indicator strip is never exposed as a black bar.
+  // (On Android the default nav bar inset handles itself; on web insets are 0.)
+  const bottomPad = Platform.OS === 'ios'
+    ? Math.max(insets.bottom, 34)
+    : insets.bottom;
+
   return (
     <View style={[
       styles.bar,
-      { backgroundColor: colors.bg, borderTopColor: colors.border, paddingBottom: insets.bottom + 2 },
+      { backgroundColor: colors.bg, borderTopColor: colors.border, paddingBottom: bottomPad + 2 },
     ]}>
       {TABS.map((tab, i) => (
         <TabItem
