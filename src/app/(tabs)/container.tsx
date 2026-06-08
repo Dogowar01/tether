@@ -56,7 +56,7 @@ const VESSEL_META: Record<string, { icon: string; desc: string; color: string }>
   cave:   { icon: 'aperture-outline',     desc: 'Still and deep underground',             color: '#7888A8' },
   ocean:  { icon: 'water-outline',        desc: 'Vast enough to hold anything',           color: '#4878C8' },
   vault:  { icon: 'lock-closed-outline',  desc: 'No one enters without your permission',  color: '#90A0B8' },
-  flame:  { icon: 'flame-outline',        desc: 'Transforms what it holds',               color: '#D06030' },
+  river:  { icon: 'git-branch-outline',    desc: 'Carries it gently downstream',           color: '#38B8C8' },
 };
 
 // ── Page gradient (violet wash) ───────────────────────────────────────────

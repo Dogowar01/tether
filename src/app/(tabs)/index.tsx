@@ -351,13 +351,14 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: Space.lg,
   },
-  // minHeight ensures rows 1 & 2 match even though flexWrap sizes each
-  // row independently; flex:1 on Pressable + card fills that height.
-  cardWrap: { width: '48.3%', minHeight: 165 },
+  // Concrete height (not minHeight) so flex:1 children have a real
+  // size to fill. 175 comfortably fits all card content even on narrow
+  // screens where the label wraps to two lines.
+  cardWrap: { width: '48.3%', height: 175 },
 
   // Card
   card: {
-    flex: 1,                // fill the Pressable so the gradient covers full height
+    flex: 1,                // fills the 175px Pressable — works because parent has concrete height
     borderRadius: Radius.xl,
     borderWidth: 1,
     overflow: 'hidden',
