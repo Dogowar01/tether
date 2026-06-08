@@ -84,7 +84,7 @@ function ToolCard({
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
         onPressOut={() => scale.value = withSpring(1, { damping: 15, stiffness: 260 })}
-        style={{ borderRadius: Radius.xl }}
+        style={{ borderRadius: Radius.xl, flex: 1 }}
       >
         <LinearGradient
           colors={scheme === 'dark' ? grad.dark : grad.light}
@@ -351,10 +351,13 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: Space.lg,
   },
-  cardWrap: { width: '48.3%' },
+  // minHeight ensures rows 1 & 2 match even though flexWrap sizes each
+  // row independently; flex:1 on Pressable + card fills that height.
+  cardWrap: { width: '48.3%', minHeight: 165 },
 
   // Card
   card: {
+    flex: 1,                // fill the Pressable so the gradient covers full height
     borderRadius: Radius.xl,
     borderWidth: 1,
     overflow: 'hidden',
