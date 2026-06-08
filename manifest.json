@@ -1,0 +1,24 @@
+{
+  "name": "Tether",
+  "short_name": "Tether",
+  "description": "A quiet mental wellness companion for difficult moments.",
+  "start_url": "/tether/",
+  "scope": "/tether/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1C1917",
+  "theme_color": "#1C1917",
+  "icons": [
+    {
+      "src": "/tether/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/tether/assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
