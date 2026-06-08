@@ -27,9 +27,7 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "dogowar2010@gmail.com",
-        "ascAppId": "",
-        "appleTeamId": ""
+        "appleId": "dogowar2010@gmail.com"
       }
     }
   }
