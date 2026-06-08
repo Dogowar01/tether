@@ -5,11 +5,17 @@
             padding: 0;
           }
           html {
+            height: 100%;
+            /* dvh = dynamic viewport height — shrinks as Safari toolbar
+               appears, so the app never ends above the screen bottom.
+               Fallback chain for older iOS: 100% → -webkit-fill-available */
+            height: -webkit-fill-available;
             height: 100dvh;
           }
           body {
-            min-height: 100dvh;
             height: 100%;
+            min-height: -webkit-fill-available;
+            min-height: 100dvh;
           }
           #root {
             height: 100%;
@@ -340,5 +346,5 @@ input::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-web
 @keyframes r-1pzkwqh{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
 @keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
 @keyframes r-q67da2{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
-@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script><link rel="icon" href="/tether/favicon.ico" /></head><body  style="background-color:#1C1917"><div id="root"><div class="css-g5y9jx r-13awgt0"></div></div><script src="/tether/_expo/static/js/web/entry-f2dc93ef065696db5b17836aa9525f13.js" defer></script>
+@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}</style><script type="module">globalThis.__EXPO_ROUTER_HYDRATE__=true;</script><link rel="icon" href="/tether/favicon.ico" /></head><body  style="background-color:#1C1917"><div id="root"><div class="css-g5y9jx r-13awgt0"></div></div><script src="/tether/_expo/static/js/web/entry-a90bbdf870661b54b576a47b652c64ab.js" defer></script>
 </body></html>
