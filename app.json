@@ -32,7 +32,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#1C1917",
+          "backgroundColor": "#1E1B28",
           "image": "./assets/Tether.png",
           "imageWidth": 120
         }

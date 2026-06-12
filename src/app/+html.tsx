@@ -30,7 +30,7 @@ export default function Root({ children }: PropsWithChildren) {
         <link rel="apple-touch-icon" href="/tether/favicon.ico" />
 
         {/* ── Android / general PWA ── */}
-        <meta name="theme-color" content="#1C1917" />
+        <meta name="theme-color" content="#1E1B28" />
         <link rel="manifest" href="/tether/manifest.json" />
 
         {/* ── Expo scroll reset (keeps full-screen layout correct on web) ── */}
@@ -45,9 +45,13 @@ export default function Root({ children }: PropsWithChildren) {
             has a concrete parent height to fill.
             background-color on all ancestors stops any dark-or-white flash
             at the edges with viewport-fit:cover. ─────────────────────────── */}
+        {/* Background MUST match the app's theme bg (Colors.dark.bg #1E1B28)
+            exactly — any pixel iOS leaves uncovered (toolbar transitions,
+            safe-area timing, overscroll) shows this colour. A mismatched
+            dark here read as a "dark bar" at the screen edges. */}
         <style dangerouslySetInnerHTML={{ __html: `
           html, body, #root {
-            background-color: #1C1917;
+            background-color: #1E1B28;
             margin: 0;
             padding: 0;
           }
@@ -69,7 +73,7 @@ export default function Root({ children }: PropsWithChildren) {
           }
         ` }} />
       </head>
-      <body style={{ backgroundColor: '#1C1917' }}>{children}</body>
+      <body style={{ backgroundColor: '#1E1B28' }}>{children}</body>
     </html>
   );
 }

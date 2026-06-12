@@ -80,11 +80,13 @@ export function TetherTabBar({ state, navigation }: TabBarProps) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
-  // Safety net: on iOS the home indicator area is ~34px. If initialWindowMetrics
-  // somehow hasn't resolved yet and insets.bottom = 0, we use 34px so the
-  // indicator strip is never exposed as a black bar.
-  // (On Android the default nav bar inset handles itself; on web insets are 0.)
-  const bottomPad = Platform.OS === 'ios'
+  // insets.bottom is reliable: the root SafeAreaProvider gets
+  // initialWindowMetrics, so the home-indicator inset (~34px on notched
+  // iPhones) arrives synchronously. Keep a floor ONLY for notched devices
+  // (top inset ≥ 40 — home-button iPhones report 20): a blanket 34px floor
+  // painted a fake dark bar at the bottom on home-button devices, where
+  // insets.bottom = 0 is the correct value.
+  const bottomPad = Platform.OS === 'ios' && insets.top >= 40
     ? Math.max(insets.bottom, 34)
     : insets.bottom;
 
