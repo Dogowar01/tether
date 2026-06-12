@@ -118,7 +118,7 @@ function WriteView({ onNext, content, setContent, onOpenArchive, archiveCount }:
                 What would you like to set down?
               </Text>
               <Text style={[styles.pageDesc, { color: colors.dim }]}>
-                You don't need to solve this right now. Write it here, choose somewhere to hold it, and set it down safely.
+                You don’t need to solve this right now. Write it here, choose somewhere to hold it, and set it down safely.
               </Text>
             </View>
             {archiveCount > 0 && (
@@ -374,7 +374,7 @@ function SealView({ vessel, onDone }: { vessel: Vessel; onDone: () => void }) {
         Set down.
       </Animated.Text>
       <Animated.Text style={[styles.sealSub, { color: colors.muted }, subStyle]}>
-        Your thoughts are held safely here.{'\n'}You can return to them when you're ready.
+        Your thoughts are held safely here.{'\n'}You can return to them when you’re ready.
       </Animated.Text>
 
       {/* Done button */}
@@ -414,7 +414,7 @@ function ArchiveView({ entries, onBack, onDelete, onSelect }: {
           </Text>
           <View style={[styles.rule, { backgroundColor: acc.base }]} />
           <Text style={[styles.pageSubtitle, { color: colors.muted }]}>
-            What's been set down.
+            What’s been set down.
           </Text>
         </View>
         <Pressable
@@ -733,12 +733,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 12,
   },
-  vesselCardWrap: { width: '48.3%' },
+  // 2×width + 12px gap must fit within 100% on all screens (see home grid)
+  vesselCardWrap: { width: '47.5%' },
   vesselCard: {
     borderRadius: Radius.lg,
     borderWidth: 1,
     padding: Space.md,
     gap: Space.xs + 2,
+    // Tall enough for a two-line description ("Vault" wraps) so all six
+    // cards in the grid render at the same height.
+    minHeight: 146,
   },
   vesselIconBadge: {
     width: 44, height: 44, borderRadius: 13,

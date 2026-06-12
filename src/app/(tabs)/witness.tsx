@@ -7,7 +7,6 @@ import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {
@@ -111,7 +110,7 @@ function CrisisCard() {
     <View style={[crisisStyles.card, { backgroundColor: colors.crisisBg, borderColor: colors.crisisBorder }]}>
       <Text style={[crisisStyles.heading, { color: colors.crisis }]}>Are you safe right now?</Text>
       <Text style={[crisisStyles.body, { color: colors.textSoft }]}>
-        If you're in crisis, please reach out. You don't have to hold this alone.
+        If you’re in crisis, please reach out. You don’t have to hold this alone.
       </Text>
       <View style={crisisStyles.lines}>
         <Text style={[crisisStyles.line, { color: colors.crisis }]}>🇦🇺 Lifeline Australia · 13 11 14</Text>
@@ -151,6 +150,58 @@ function formatDate(iso: string): string {
 
 function preview(text: string, max = 80): string {
   return text.length > max ? text.slice(0, max).trimEnd() + '…' : text;
+}
+
+// ── Shared header row ──────────────────────────────────────────────────────
+// Defined at module level (not inside the screen) so it isn't a new component
+// type on every render — keeping it inside WitnessScreen made React unmount
+// and remount the whole header on each keystroke in the write view.
+
+function PageHeader({ showBack = false, onBack, archiveCount = 0, onArchive }: {
+  showBack?: boolean;
+  onBack?: () => void;
+  archiveCount?: number;
+  onArchive?: () => void;
+}) {
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={[styles.header, { paddingTop: insets.top + Space.lg }]}>
+      <View style={styles.headerRow}>
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.title, { color: '#FFFFFF', fontFamily: Font.serif }]}>The Witness</Text>
+          <View style={[styles.rule, { backgroundColor: acc.base }]} />
+          <Text style={[styles.subtitle, { color: 'rgba(255,255,255,0.72)' }]}>
+            Say what needs saying.
+          </Text>
+        </View>
+
+        {!showBack && onArchive && (
+          <Pressable
+            onPress={onArchive}
+            hitSlop={16}
+            style={({ pressed }) => [styles.archiveBtn, { opacity: pressed ? 0.5 : 1 }]}
+          >
+            <Ionicons name="archive-outline" size={20} color="rgba(255,255,255,0.6)" />
+            {archiveCount > 0 && (
+              <View style={[styles.badge, { backgroundColor: acc.base }]}>
+                <Text style={styles.badgeText}>{archiveCount}</Text>
+              </View>
+            )}
+          </Pressable>
+        )}
+
+        {showBack && (
+          <Pressable
+            onPress={onBack}
+            hitSlop={16}
+            style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, paddingTop: Space.xs })}
+          >
+            <Ionicons name="arrow-back-outline" size={22} color="rgba(255,255,255,0.7)" />
+          </Pressable>
+        )}
+      </View>
+    </View>
+  );
 }
 
 // ── Screen ─────────────────────────────────────────────────────────────────
@@ -260,49 +311,6 @@ export default function WitnessScreen() {
       <LinearGradient colors={PAGE_GRADIENT} style={styles.gradient} start={{ x: 0.5, y: 0 }} end={{ x: 0.5, y: 1 }} />
     </>
   );
-
-  // ── Shared header row ─────────────────────────────────────────────────
-
-  function PageHeader({ showBack = false, onBack }: { showBack?: boolean; onBack?: () => void }) {
-    return (
-      <View style={[styles.header, { paddingTop: insets.top + Space.lg }]}>
-        <View style={styles.headerRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.title, { color: '#FFFFFF', fontFamily: Font.serif }]}>The Witness</Text>
-            <View style={[styles.rule, { backgroundColor: acc.base }]} />
-            <Text style={[styles.subtitle, { color: 'rgba(255,255,255,0.72)' }]}>
-              Say what needs saying.
-            </Text>
-          </View>
-
-          {!showBack && (
-            <Pressable
-              onPress={() => setView('archive')}
-              hitSlop={16}
-              style={({ pressed }) => [styles.archiveBtn, { opacity: pressed ? 0.5 : 1 }]}
-            >
-              <Ionicons name="archive-outline" size={20} color="rgba(255,255,255,0.6)" />
-              {savedLetters.length > 0 && (
-                <View style={[styles.badge, { backgroundColor: acc.base }]}>
-                  <Text style={styles.badgeText}>{savedLetters.length}</Text>
-                </View>
-              )}
-            </Pressable>
-          )}
-
-          {showBack && (
-            <Pressable
-              onPress={onBack}
-              hitSlop={16}
-              style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, paddingTop: Space.xs })}
-            >
-              <Ionicons name="arrow-back-outline" size={22} color="rgba(255,255,255,0.7)" />
-            </Pressable>
-          )}
-        </View>
-      </View>
-    );
-  }
 
   // ── Archive view ──────────────────────────────────────────────────────
 
@@ -476,7 +484,7 @@ export default function WitnessScreen() {
   return (
     <View style={[styles.root, { backgroundColor: colors.bg }]}>
       {pageChrome}
-      <PageHeader />
+      <PageHeader archiveCount={savedLetters.length} onArchive={() => setView('archive')} />
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={[styles.themeScroll, { paddingHorizontal: Space.xl }]}

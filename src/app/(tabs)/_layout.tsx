@@ -6,7 +6,6 @@ export default function TabsLayout() {
     <Tabs
       tabBar={props => <TetherTabBar {...props} />}
       screenOptions={{ headerShown: false }}
-      sceneContainerStyle={{ backgroundColor: 'transparent' }}
     >
       <Tabs.Screen name="index" />
       <Tabs.Screen name="witness" />

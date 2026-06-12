@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/Tether.png",
     "scheme": "tether",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "ios": {
       "icon": "./assets/Tether.png",
       "bundleIdentifier": "com.signal9.tether",

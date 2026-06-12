@@ -576,16 +576,21 @@ export default function AnchorsScreen() {
   const [anchors, setAnchors]           = useState<Anchor[]>([]);
   const [activeAnchor, setActiveAnchor] = useState<Anchor | null>(null);
   const [showAdd, setShowAdd]           = useState(false);
+  const [loaded, setLoaded]             = useState(false);
 
   // Load from storage on mount
   useEffect(() => {
-    loadAnchors().then(setAnchors);
+    loadAnchors().then(stored => {
+      setAnchors(stored);
+      setLoaded(true);
+    });
   }, []);
 
-  // Persist whenever anchors change
+  // Persist on change — but never before the initial load resolves,
+  // otherwise the mount-time [] would overwrite saved anchors.
   useEffect(() => {
-    persistAnchors(anchors);
-  }, [anchors]);
+    if (loaded) persistAnchors(anchors);
+  }, [anchors, loaded]);
 
   function handleAdd(name: string) {
     const anchor: Anchor = {
@@ -602,8 +607,10 @@ export default function AnchorsScreen() {
     setAnchors(prev => prev.filter(a => a.id !== id));
   }
 
-  // FAB sits just above the tab bar (~60px) + safe area
-  const fabBottom = insets.bottom + 70;
+  // The tab scene already ends above the tab bar (the custom tab bar is
+  // rendered below the scene, not overlapping it), so the FAB only needs
+  // a small visual margin — not insets.bottom + tab bar height.
+  const fabBottom = Space.lg;
 
   return (
     <View style={[screenStyles.root, { backgroundColor: colors.bg }]}>

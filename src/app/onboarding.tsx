@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -137,11 +136,13 @@ function ToolSlideView({ slide, colors }: { slide: ToolSlide; colors: ReturnType
 function NameSlide({
   name,
   onChange,
+  onDone,
   colors,
   height,
 }: {
   name: string;
   onChange: (t: string) => void;
+  onDone: () => void;
   colors: ReturnType<typeof useTheme>['colors'];
   height: number;
 }) {
@@ -169,6 +170,7 @@ function NameSlide({
         autoCapitalize="words"
         returnKeyType="done"
         autoCorrect={false}
+        onSubmitEditing={onDone}
       />
     </View>
   );
@@ -292,6 +294,7 @@ export default function OnboardingScreen() {
               <NameSlide
                 name={name}
                 onChange={setName}
+                onDone={() => goTo(TOTAL - 1)}
                 colors={colors}
                 height={height}
               />

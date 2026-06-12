@@ -354,7 +354,10 @@ const styles = StyleSheet.create({
   // Concrete height (not minHeight) so flex:1 children have a real
   // size to fill. 175 comfortably fits all card content even on narrow
   // screens where the label wraps to two lines.
-  cardWrap: { width: '48.3%', height: 175 },
+  // Width must satisfy 2×width + 12px gap ≤ 100% on ALL screens —
+  // 48.3% only fit two-across on Pro Max-width devices; on anything
+  // narrower the second card wrapped and the grid collapsed to one column.
+  cardWrap: { width: '47.5%', height: 175 },
 
   // Card
   card: {

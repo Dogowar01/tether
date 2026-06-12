@@ -318,12 +318,16 @@ function BreathGuide({
             borderColor: acc.base + '55',
           },
           circleStyle,
-        ]}>
+        ]} />
+
+        {/* Labels live OUTSIDE the scaling circle so they stay readable
+            at full size while the circle breathes behind them. */}
+        <View style={styles.breathLabels}>
           <Text style={[styles.phaseLabel, { color: colors.muted }]}>{phase.name}</Text>
           <Text style={[styles.phaseTimer, { color: acc.base }]}>
             {Math.max(1, timeLeft)}
           </Text>
-        </Animated.View>
+        </View>
       </View>
 
       {/* Skip */}
@@ -618,8 +622,12 @@ const styles = StyleSheet.create({
   circleArea: { alignItems: 'center', justifyContent: 'center' },
   circleHalo: { position: 'absolute', borderWidth: 1 },
   breathCircle: {
-    alignItems: 'center', justifyContent: 'center',
-    borderWidth: 1.5, gap: 6,
+    borderWidth: 1.5,
+  },
+  breathLabels: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center', justifyContent: 'center', gap: 6,
+    pointerEvents: 'none',
   },
   phaseLabel: { fontSize: 13, fontWeight: '500', letterSpacing: 0.3 },
   phaseTimer: { fontSize: 44, fontWeight: '200', lineHeight: 50 },

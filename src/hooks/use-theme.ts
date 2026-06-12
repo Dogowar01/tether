@@ -1,9 +1,11 @@
-import { useColorScheme } from 'react-native';
 import { Accent, AccentKey, ColorScheme, Colors, getAccentBg, getAccentMid, getAccentText } from '@/constants/theme';
 
 export function useTheme() {
-  const raw = useColorScheme();
-  const scheme: ColorScheme = raw === 'dark' ? 'dark' : 'light';
+  // Tether v1 is dark-only: the screens' imagery, gradients, and several
+  // hardcoded text colours are tuned for the dark palette. Forcing the scheme
+  // here (rather than following the OS) also keeps web/PWA consistent, where
+  // app.json's userInterfaceStyle has no effect.
+  const scheme: ColorScheme = 'dark';
   const colors = Colors[scheme];
 
   function accentBg(key: AccentKey) { return getAccentBg(key, scheme); }
