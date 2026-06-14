@@ -72,8 +72,7 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true,
-      "baseUrl": "/tether"
+      "reactCompiler": true
     },
     "extra": {
       "router": {},

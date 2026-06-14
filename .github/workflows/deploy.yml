@@ -31,6 +31,10 @@ jobs:
         run: npx expo export --platform web
         env:
           CI: false
+          # Enables experiments.baseUrl="/tether" in app.config.js so assets
+          # resolve under the GitHub Pages sub-path. Native EAS builds must
+          # NOT set this (baseUrl breaks native asset embedding).
+          WEB_DEPLOY: '1'
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
