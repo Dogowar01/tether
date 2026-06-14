@@ -82,18 +82,22 @@ export function TetherTabBar({ state, navigation }: TabBarProps) {
 
   // insets.bottom is reliable: the root SafeAreaProvider gets
   // initialWindowMetrics, so the home-indicator inset (~34px on notched
-  // iPhones) arrives synchronously. Keep a floor ONLY for notched devices
-  // (top inset ≥ 40 — home-button iPhones report 20): a blanket 34px floor
-  // painted a fake dark bar at the bottom on home-button devices, where
-  // insets.bottom = 0 is the correct value.
-  const bottomPad = Platform.OS === 'ios' && insets.top >= 40
-    ? Math.max(insets.bottom, 34)
+  // iPhones) arrives synchronously.
+  //
+  // Reserving the FULL inset below the icons left a tall empty band, making
+  // the bar look oversized. The home indicator only needs ~half that gap to
+  // clear it, so we use insets.bottom * 0.5 — this halves the bar height and
+  // brings the icons down nearer the bottom edge. The Math.max keeps a small
+  // floor on notched devices (top inset ≥ 40; home-button iPhones report 20)
+  // as a safety net; home-button devices correctly get 0.
+  const homeGap = Platform.OS === 'ios' && insets.top >= 40
+    ? Math.max(Math.round(insets.bottom * 0.5), 12)
     : insets.bottom;
 
   return (
     <View style={[
       styles.bar,
-      { backgroundColor: colors.bg, borderTopColor: colors.border, paddingBottom: bottomPad + 2 },
+      { backgroundColor: colors.bg, borderTopColor: colors.border, paddingBottom: homeGap },
     ]}>
       {TABS.map((tab, i) => (
         <TabItem
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
   bar: {
     flexDirection: 'row',
     borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: 8,
+    paddingTop: 6,
   },
   tabItem: {
     flex: 1,
