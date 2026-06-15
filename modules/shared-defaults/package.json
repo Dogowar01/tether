@@ -1,5 +1,8 @@
 {
   "name": "shared-defaults",
   "version": "1.0.0",
-  "main": "index.ts"
+  "main": "index.ts",
+  "peerDependencies": {
+    "expo-modules-core": "*"
+  }
 }

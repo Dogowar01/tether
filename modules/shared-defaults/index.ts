@@ -1,7 +1,7 @@
-import { requireNativeModule } from 'expo-modules-core';
+import { requireOptionalNativeModule } from 'expo-modules-core';
 
-const SharedDefaultsModule = requireNativeModule('SharedDefaults');
+const SharedDefaultsModule = requireOptionalNativeModule('SharedDefaults');
 
 export async function setWidgetAnchor(name: string): Promise<void> {
-  return SharedDefaultsModule.setAnchor(name);
+  return SharedDefaultsModule?.setAnchor(name);
 }
