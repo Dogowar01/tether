@@ -27,7 +27,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Accent, Font, Radius, Space } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { setWidgetAnchor } from 'shared-defaults';
+import { setWidgetAnchors } from 'shared-defaults';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -593,7 +593,7 @@ export default function AnchorsScreen() {
   useEffect(() => {
     if (loaded) {
       persistAnchors(anchors);
-      setWidgetAnchor(anchors[0]?.name ?? '').catch(() => {});
+      setWidgetAnchors(anchors.map(a => a.name)).catch(() => {});
     }
   }, [anchors, loaded]);
 

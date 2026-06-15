@@ -46,7 +46,8 @@
         "react-native-widget-extension",
         {
           "widgetsFolder": "_widgets/TetherAnchorWidget",
-          "deploymentTarget": "17.0"
+          "deploymentTarget": "17.0",
+          "groupIdentifier": "group.com.signal9.tether"
         }
       ],
       [
