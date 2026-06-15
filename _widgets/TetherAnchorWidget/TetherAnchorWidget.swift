@@ -1,6 +1,15 @@
 import SwiftUI
 import WidgetKit
 
+// ── Palette ────────────────────────────────────────────────────────────────
+
+private let widgetBg     = Color(red: 30/255,  green: 27/255,  blue: 40/255)
+private let widgetPink   = Color(red: 176/255, green: 120/255, blue: 152/255)
+private let widgetWhite  = Color.white
+private let widgetMuted  = Color(white: 0.30)
+private let widgetGhost  = Color(white: 0.45)
+private let widgetLink   = URL(string: "tether:///anchors")!
+
 // ── Data ───────────────────────────────────────────────────────────────────
 
 struct AnchorEntry: TimelineEntry {
@@ -11,7 +20,7 @@ struct AnchorEntry: TimelineEntry {
 // ── Provider ───────────────────────────────────────────────────────────────
 
 struct AnchorProvider: TimelineProvider {
-    private let appGroup  = "group.com.signal9.tether"
+    private let appGroup   = "group.com.signal9.tether"
     private let storageKey = "tether.anchors"
 
     func placeholder(in context: Context) -> AnchorEntry {
@@ -28,48 +37,50 @@ struct AnchorProvider: TimelineProvider {
 
     private func makeEntry() -> AnchorEntry {
         let defaults = UserDefaults(suiteName: appGroup)
-        var anchors: [String] = []
-        if let raw = defaults?.string(forKey: storageKey),
+        var names: [String] = []
+        if let raw  = defaults?.string(forKey: storageKey),
            let data = raw.data(using: .utf8),
-           let decoded = try? JSONDecoder().decode([String].self, from: data) {
-            anchors = decoded
+           let list = try? JSONDecoder().decode([String].self, from: data) {
+            names = list
         }
-        return AnchorEntry(date: Date(), anchors: anchors)
+        return AnchorEntry(date: Date(), anchors: names)
     }
 }
 
-// ── Colours ────────────────────────────────────────────────────────────────
+// ── Header row (shared) ────────────────────────────────────────────────────
 
-private let bgColor     = Color(red: 30/255,  green: 27/255,  blue: 40/255)
-private let accentColor = Color(red: 176/255, green: 120/255, blue: 152/255)
-private let deepLink    = URL(string: "tether:///anchors")!
+private struct WidgetHeader: View {
+    let label: String
+    var body: some View {
+        HStack(spacing: 5) {
+            Text("⚓").font(.system(size: 10))
+            Text(label)
+                .font(.system(size: 9, weight: .semibold))
+                .kerning(1.4)
+                .foregroundStyle(widgetPink)
+        }
+    }
+}
 
-// ── Small widget — shows most recent anchor ────────────────────────────────
+// ── Small widget ───────────────────────────────────────────────────────────
 
-struct SmallWidgetView: View {
+private struct SmallView: View {
     let anchors: [String]
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 5) {
-                Text("⚓").font(.system(size: 10))
-                Text("ANCHOR")
-                    .font(.system(size: 9, weight: .semibold))
-                    .kerning(1.4)
-                    .foregroundColor(accentColor)
-            }
-            .padding(.bottom, 10)
+            WidgetHeader(label: "ANCHOR")
+                .padding(.bottom, 10)
 
             if anchors.isEmpty {
                 Text("Open Tether to add your first anchor")
                     .font(.system(size: 13))
-                    .foregroundColor(Color(white: 0.45))
+                    .foregroundStyle(widgetGhost)
                     .italic()
                     .fixedSize(horizontal: false, vertical: true)
             } else {
                 Text(anchors[0])
                     .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(.white)
+                    .foregroundStyle(widgetWhite)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -78,50 +89,45 @@ struct SmallWidgetView: View {
 
             Text("Tether")
                 .font(.system(size: 10, weight: .light))
-                .foregroundColor(Color(white: 0.30))
+                .foregroundStyle(widgetMuted)
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .containerBackground(for: .widget) { bgColor }
+        .containerBackground(for: .widget) { widgetBg }
     }
 }
 
-// ── Medium widget — lists up to 3 anchors ─────────────────────────────────
+// ── Medium widget ──────────────────────────────────────────────────────────
 
-struct MediumWidgetView: View {
+private struct MediumView: View {
     let anchors: [String]
-
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 5) {
-                Text("⚓").font(.system(size: 10))
-                Text("ANCHORS")
-                    .font(.system(size: 9, weight: .semibold))
-                    .kerning(1.4)
-                    .foregroundColor(accentColor)
+            HStack {
+                WidgetHeader(label: "ANCHORS")
                 Spacer()
                 Text("Tether")
                     .font(.system(size: 9, weight: .light))
-                    .foregroundColor(Color(white: 0.30))
+                    .foregroundStyle(widgetMuted)
             }
             .padding(.bottom, 10)
 
             if anchors.isEmpty {
                 Text("Open Tether to add your first anchor")
                     .font(.system(size: 13))
-                    .foregroundColor(Color(white: 0.45))
+                    .foregroundStyle(widgetGhost)
                     .italic()
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(anchors.prefix(3), id: \.self) { name in
                         HStack(spacing: 8) {
                             Rectangle()
-                                .fill(accentColor)
+                                .fill(widgetPink)
                                 .frame(width: 2)
                                 .cornerRadius(1)
                             Text(name)
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.white)
+                                .foregroundStyle(widgetWhite)
                                 .lineLimit(1)
                         }
                         .frame(height: 20)
@@ -133,11 +139,11 @@ struct MediumWidgetView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .containerBackground(for: .widget) { bgColor }
+        .containerBackground(for: .widget) { widgetBg }
     }
 }
 
-// ── Widget definition ──────────────────────────────────────────────────────
+// ── Widget entry view ──────────────────────────────────────────────────────
 
 struct TetherAnchorWidgetView: View {
     var entry: AnchorEntry
@@ -146,14 +152,16 @@ struct TetherAnchorWidgetView: View {
     var body: some View {
         Group {
             if family == .systemMedium {
-                MediumWidgetView(anchors: entry.anchors)
+                MediumView(anchors: entry.anchors)
             } else {
-                SmallWidgetView(anchors: entry.anchors)
+                SmallView(anchors: entry.anchors)
             }
         }
-        .widgetURL(deepLink)
+        .widgetURL(widgetLink)
     }
 }
+
+// ── Widget definition ──────────────────────────────────────────────────────
 
 @main
 struct TetherAnchorWidget: Widget {
