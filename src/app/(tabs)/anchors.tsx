@@ -27,7 +27,9 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Accent, Font, Radius, Space } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { setWidgetAnchors } from 'shared-defaults';
+import { requireOptionalNativeModule } from 'expo-modules-core';
+
+const WidgetModule = requireOptionalNativeModule('ReactNativeWidgetExtension');
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -593,7 +595,7 @@ export default function AnchorsScreen() {
   useEffect(() => {
     if (loaded) {
       persistAnchors(anchors);
-      setWidgetAnchors(anchors.map(a => a.name)).catch(() => {});
+      WidgetModule?.setAnchors(JSON.stringify(anchors.map(a => a.name))).catch(() => {});
     }
   }, [anchors, loaded]);
 
