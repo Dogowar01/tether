@@ -27,6 +27,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Accent, Font, Radius, Space } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { setWidgetAnchor } from 'shared-defaults';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -588,8 +589,12 @@ export default function AnchorsScreen() {
 
   // Persist on change — but never before the initial load resolves,
   // otherwise the mount-time [] would overwrite saved anchors.
+  // Also sync the most recent anchor to the widget shared container.
   useEffect(() => {
-    if (loaded) persistAnchors(anchors);
+    if (loaded) {
+      persistAnchors(anchors);
+      setWidgetAnchor(anchors[0]?.name ?? '').catch(() => {});
+    }
   }, [anchors, loaded]);
 
   function handleAdd(name: string) {

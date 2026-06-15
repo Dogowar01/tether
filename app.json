@@ -13,6 +13,9 @@
       "supportsTablet": false,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.com.signal9.tether"]
       }
     },
     "android": {
@@ -39,6 +42,13 @@
       ],
       "expo-font",
       "expo-web-browser",
+      [
+        "react-native-widget-extension",
+        {
+          "widgetsFolder": "_widgets/TetherAnchorWidget",
+          "deploymentTarget": "17.0"
+        }
+      ],
       [
         "expo-build-properties",
         {
