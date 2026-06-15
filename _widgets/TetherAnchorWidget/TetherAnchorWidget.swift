@@ -82,7 +82,7 @@ struct SmallWidgetView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .containerBackground(bgColor, for: .widget)
+        .containerBackground(for: .widget) { bgColor }
     }
 }
 
@@ -133,7 +133,7 @@ struct MediumWidgetView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .containerBackground(bgColor, for: .widget)
+        .containerBackground(for: .widget) { bgColor }
     }
 }
 
