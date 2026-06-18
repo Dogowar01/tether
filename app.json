@@ -2,7 +2,7 @@
   "expo": {
     "name": "Tether",
     "slug": "tether",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/Tether.png",
     "scheme": "tether",

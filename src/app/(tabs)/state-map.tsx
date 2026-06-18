@@ -22,6 +22,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NS_STATES, NSGuide, NSState } from '@/constants/data';
 import { Accent, AccentKey, Font, Radius, Space } from '@/constants/theme';
+import { useReviewPrompt } from '@/hooks/use-review-prompt';
 import { useTheme } from '@/hooks/use-theme';
 
 type ViewMode = 'map' | 'detail' | 'guide';
@@ -217,6 +218,7 @@ function BreathGuide({
   onDone: () => void;
 }) {
   const { colors } = useTheme();
+  const { recordCalmCompletion } = useReviewPrompt();
   const acc = Accent[accent];
   const { width: W } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -227,6 +229,14 @@ function BreathGuide({
   const [timeLeft, setTimeLeft] = useState(guide.phases[0].dur);
   const [complete, setComplete] = useState(false);
   const circleScale = useSharedValue(0.38);
+
+  // On a fully completed session, gently consider a review prompt — a beat
+  // after "Well done." lands, so the calm registers before the system sheet.
+  useEffect(() => {
+    if (!complete) return;
+    const t = setTimeout(() => { recordCalmCompletion(); }, 1500);
+    return () => clearTimeout(t);
+  }, [complete]);
 
   const phase = guide.phases[phaseIdx];
 
@@ -348,6 +358,7 @@ function StepGuide({
   onDone: () => void;
 }) {
   const { colors } = useTheme();
+  const { recordCalmCompletion } = useReviewPrompt();
   const acc = Accent[accent];
   const { width: W } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -356,6 +367,14 @@ function StepGuide({
   const [stepIdx, setStepIdx]   = useState(0);
   const [complete, setComplete] = useState(false);
   const progress = useSharedValue(1);
+
+  // Mirror BreathGuide: a finished grounding session is a calm moment worth
+  // (occasionally, heavily gated) asking for a review on.
+  useEffect(() => {
+    if (!complete) return;
+    const t = setTimeout(() => { recordCalmCompletion(); }, 1500);
+    return () => clearTimeout(t);
+  }, [complete]);
 
   const advance = () => {
     if (stepIdx + 1 >= guide.steps.length) {
